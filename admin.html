@@ -3,95 +3,290 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AestheticShop Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#090909;color:white;font-family:Arial,sans-serif;padding:22px}
-.wrap{max-width:600px;margin:auto}
-h1{color:#e50914;letter-spacing:2px}
-.card{background:#171717;padding:20px;border:1px solid #333;border-radius:12px;margin-top:20px}
-input,select,button{width:100%;padding:14px;margin:8px 0;background:#252525;color:white;border:1px solid #444;border-radius:7px;font-size:15px}
-button{background:#d10b17;border:0;font-weight:bold}
-#status{color:#aaa;overflow-wrap:anywhere}
+body{margin:0;background:#090909;color:white;font-family:Arial,sans-serif;padding:18px}
+.wrap{max-width:850px;margin:auto}
+h1{color:#ff3030;letter-spacing:2px}
+h2{font-size:19px;margin-top:28px}
+.card{background:#151515;border:1px solid #292929;border-radius:12px;padding:16px;margin:14px 0}
+input,select{width:100%;padding:13px;margin:7px 0;background:#222;color:white;border:1px solid #444;border-radius:7px}
+button{padding:11px 14px;border:0;border-radius:7px;background:#e51e2a;color:white;font-weight:bold;margin:5px 4px 5px 0}
+button.secondary{background:#333}
+button.danger{background:#a4111b}
+button:disabled{opacity:.5}
+.small{color:#aaa;font-size:13px}
+.product{display:flex;gap:12px;align-items:center;border-bottom:1px solid #333;padding:13px 0}
+.product img{width:75px;height:85px;object-fit:cover;border-radius:7px;background:#222}
+.info{flex:1;min-width:0}
+.info strong{display:block;margin-bottom:5px}
+.hidden{display:none!important}
+.status{color:#ff7777;white-space:pre-wrap}
+.tag{font-size:11px;color:#ff7777}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>AESTHETICSHOP</h1>
-<p>ADMIN PANEL</p>
+<p class="small">ADMIN CONTROL PANEL</p>
 
 <div class="card" id="loginBox">
 <h2>Admin Login</h2>
 <input id="email" type="email" placeholder="Admin email">
 <input id="password" type="password" placeholder="Password">
-<button onclick="login()">LOGIN</button>
+<button id="loginBtn" onclick="login()">LOGIN</button>
+<p class="status" id="loginMsg"></p>
 </div>
 
-<div class="card" id="productBox" hidden>
+<div id="dashboard" class="hidden">
+
+<div class="card">
 <h2>Add New Product</h2>
 <input id="name" placeholder="Product name">
-<input id="price" type="number" placeholder="Price">
+<input id="price" type="number" min="0" placeholder="Original price (₹)">
+<input id="salePrice" type="number" min="0" placeholder="Sale price (optional)">
 <select id="category">
-<option value="T-Shirts">T-Shirts</option>
-<option value="Hoodies">Hoodies</option>
-<option value="Pants">Pants</option>
-<option value="Shoes">Shoes</option>
-<option value="Accessories">Accessories</option>
+<option>T-Shirts</option>
+<option>Hoodies</option>
+<option>Pants</option>
+<option>Shoes</option>
+<option>Accessories</option>
 </select>
 <input id="photo" type="file" accept="image/*">
-<button onclick="addProduct()">UPLOAD PRODUCT</button>
-<button onclick="logout()">LOGOUT</button>
-<p id="status"></p>
+<button id="addBtn" onclick="addProduct()">ADD PRODUCT</button>
+<p class="status" id="addMsg"></p>
+</div>
+
+<div class="card">
+<h2>Manage Products</h2>
+<button class="secondary" onclick="loadProducts()">REFRESH LIST</button>
+<div id="productList">Loading...</div>
+</div>
+
+<button class="danger" onclick="logout()">LOGOUT</button>
 </div>
 </div>
 
 <script>
-const SUPABASE_URL="https://djvtgmolgvtnjkvthccs.supabase.co";
-const SUPABASE_KEY="sb_publishable_MQZ_aXq94UEP_QEDQpPA0w_2u3kMv2A";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const SUPABASE_URL = "https://djvtgmolgvtnjkvthccs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_MQZ_aXq94UEP_QEDQpPA0w_2u3kMv2A";
+
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let editingId = null;
+let currentProducts = [];
+
+function msg(id,text){
+ document.getElementById(id).textContent=text;
+}
+
+function safe(value){
+ return String(value ?? "").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
 
 async function login(){
- const {data,error}=await db.auth.signInWithPassword({
-  email:document.getElementById("email").value.trim(),
-  password:document.getElementById("password").value
- });
- if(error){alert(error.message);return}
- document.getElementById("loginBox").hidden=true;
- document.getElementById("productBox").hidden=false;
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ if(!email || !password){msg("loginMsg","Email aur password bharo.");return;}
+
+ document.getElementById("loginBtn").disabled=true;
+ msg("loginMsg","Logging in...");
+
+ const {error}=await db.auth.signInWithPassword({email,password});
+ document.getElementById("loginBtn").disabled=false;
+
+ if(error){msg("loginMsg",error.message);return;}
+ await checkSession();
 }
+
+async function checkSession(){
+ const {data:{session}}=await db.auth.getSession();
+ if(!session){
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("dashboard").classList.add("hidden");
+  return;
+ }
+
+ const {data:{user}}=await db.auth.getUser();
+ if(!user || user.id!=="29da6507-a959-492a-b6bd-9161d1c82843"){
+  await db.auth.signOut();
+  msg("loginMsg","Admin access denied.");
+  return;
+ }
+
+ document.getElementById("loginBox").classList.add("hidden");
+ document.getElementById("dashboard").classList.remove("hidden");
+ await loadProducts();
+}
+
 async function logout(){
  await db.auth.signOut();
  location.reload();
 }
+
 async function addProduct(){
- const status=document.getElementById("status");
  const name=document.getElementById("name").value.trim();
  const price=Number(document.getElementById("price").value);
+ const saleRaw=document.getElementById("salePrice").value.trim();
+ const sale=saleRaw===""?null:Number(saleRaw);
  const category=document.getElementById("category").value;
  const file=document.getElementById("photo").files[0];
- if(!name||!price||price<=0||!file){status.textContent="Name, valid price aur photo zaroori hain.";return}
- status.textContent="Uploading...";
- const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
- const {error:uploadError}=await db.storage.from("product-images").upload(path,file);
- if(uploadError){status.textContent=uploadError.message;return}
- const {data:urlData}=db.storage.from("product-images").getPublicUrl(path);
- const {error}=await db.from("products").insert({
-  name,price,category,image_url:urlData.publicUrl
- });
- if(error){status.textContent=error.message;return}
- status.textContent="Product uploaded successfully!";
+
+ if(!name || !Number.isFinite(price) || price<=0 || !file){
+  msg("addMsg","Name, valid price aur product photo zaroori hain.");
+  return;
+ }
+ if(sale!==null && (!Number.isFinite(sale)||sale<=0||sale>=price)){
+  msg("addMsg","Sale price original price se kam hona chahiye.");
+  return;
+ }
+
+ const btn=document.getElementById("addBtn");
+ btn.disabled=true;
+ msg("addMsg","Uploading photo...");
+
+ try{
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
+  const path=Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+
+  const {error:uploadError}=await db.storage
+   .from("product-images")
+   .upload(path,file,{upsert:false});
+
+  if(uploadError) throw uploadError;
+
+  const {data:urlData}=db.storage.from("product-images").getPublicUrl(path);
+
+  const {error}=await db.from("products").insert({
+   name,price,sale_price:sale,category,
+   image_url:urlData.publicUrl,is_active:true
+  });
+
+  if(error) throw error;
+
+  msg("addMsg","Product successfully added!");
+  document.getElementById("name").value="";
+  document.getElementById("price").value="";
+  document.getElementById("salePrice").value="";
+  document.getElementById("photo").value="";
+  await loadProducts();
+ }catch(e){
+  msg("addMsg","Error: "+e.message);
+ }finally{
+  btn.disabled=false;
+ }
+}
+
+async function loadProducts(){
+ const list=document.getElementById("productList");
+ list.textContent="Loading products...";
+
+ const {data,error}=await db.from("products")
+  .select("*").order("created_at",{ascending:false});
+
+ if(error){
+  list.textContent="Error: "+error.message;
+  return;
+ }
+
+ currentProducts=data||[];
+ if(!currentProducts.length){
+  list.textContent="No products found.";
+  return;
+ }
+
+ list.innerHTML=currentProducts.map(p=>`
+ <div class="product">
+  <img src="${safe(p.image_url)}" alt="">
+  <div class="info">
+   <strong>${safe(p.name)}</strong>
+   <span class="small">${safe(p.category)} · ₹${safe(p.price)}</span>
+   ${p.sale_price?`<div class="tag">SALE ₹${safe(p.sale_price)}</div>`:""}
+   <div class="tag">${p.is_active?"ACTIVE":"HIDDEN"}</div>
+  </div>
+  <div>
+   <button class="secondary" onclick="editProduct('${p.id}')">EDIT</button>
+   <button class="secondary" onclick="toggleProduct('${p.id}',${!p.is_active})">${p.is_active?"HIDE":"SHOW"}</button>
+   <button class="danger" onclick="deleteProduct('${p.id}')">DELETE</button>
+  </div>
+ </div>`).join("");
+}
+
+function editProduct(id){
+ const p=currentProducts.find(x=>x.id===id);
+ if(!p)return;
+
+ editingId=id;
+ document.getElementById("name").value=p.name;
+ document.getElementById("price").value=p.price;
+ document.getElementById("salePrice").value=p.sale_price??"";
+ document.getElementById("category").value=p.category;
+ document.getElementById("photo").value="";
+ document.getElementById("addBtn").textContent="SAVE CHANGES";
+ document.getElementById("addBtn").onclick=saveEdit;
+ msg("addMsg","Editing: "+p.name+" (Photo unchanged)");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function saveEdit(){
+ const p=currentProducts.find(x=>x.id===editingId);
+ if(!p)return;
+
+ const name=document.getElementById("name").value.trim();
+ const price=Number(document.getElementById("price").value);
+ const saleRaw=document.getElementById("salePrice").value.trim();
+ const sale=saleRaw===""?null:Number(saleRaw);
+ const category=document.getElementById("category").value;
+
+ if(!name||!Number.isFinite(price)||price<=0){
+  msg("addMsg","Valid name aur price enter karo.");
+  return;
+ }
+ if(sale!==null&&(!Number.isFinite(sale)||sale<=0||sale>=price)){
+  msg("addMsg","Sale price original price se kam hona chahiye.");
+  return;
+ }
+
+ const btn=document.getElementById("addBtn");
+ btn.disabled=true;
+ const {error}=await db.from("products").update({
+  name,price,sale_price:sale,category
+ }).eq("id",editingId);
+
+ btn.disabled=false;
+ if(error){msg("addMsg","Error: "+error.message);return;}
+
+ editingId=null;
  document.getElementById("name").value="";
  document.getElementById("price").value="";
- document.getElementById("photo").value="";
+ document.getElementById("salePrice").value="";
+ btn.textContent="ADD PRODUCT";
+ btn.onclick=addProduct;
+ msg("addMsg","Product updated!");
+ await loadProducts();
 }
-db.auth.onAuthStateChange((event,session)=>{
- if(session){
-  document.getElementById("loginBox").hidden=true;
-  document.getElementById("productBox").hidden=false;
- }
-});
+
+async function toggleProduct(id,active){
+ const {error}=await db.from("products")
+  .update({is_active:active}).eq("id",id);
+ if(error){alert(error.message);return;}
+ await loadProducts();
+}
+
+async function deleteProduct(id){
+ if(!confirm("Permanently delete this product?"))return;
+ const {error}=await db.from("products").delete().eq("id",id);
+ if(error){alert(error.message);return;}
+ alert("Product deleted.");
+ await loadProducts();
+}
+
+checkSession();
 </script>
 </body>
 </html>
