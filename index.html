@@ -10,119 +10,90 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:#080808;color:#fff;font-family:Arial,sans-serif}
-body.menu-open{overflow:hidden}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer}
 
-.top{
- background:#a20d1b;text-align:center;padding:10px;
- font-size:10px;letter-spacing:2px
-}
+.top{background:#a20d1b;text-align:center;padding:10px;font-size:10px;letter-spacing:2px}
 
 header{
- height:75px;padding:0 6%;display:flex;align-items:center;
+ height:70px;padding:0 5%;display:flex;align-items:center;
  justify-content:space-between;border-bottom:1px solid #292929;
  background:#090909;position:relative;z-index:10
 }
-
-.menu-btn{
- display:block;background:none;border:0;color:white;
- font-size:27px;padding:5px 12px 5px 0
-}
-
-.logo{font-size:23px;font-weight:900;letter-spacing:1px}
+.menu-btn{background:none;border:0;color:white;font-size:27px}
+.logo{font-size:21px;font-weight:900;letter-spacing:1px}
 .logo span{color:#e21b2d}
-
-nav{display:flex;gap:23px;font-size:10px;letter-spacing:1.5px}
-nav a:hover{color:#ed2637}
-
-.header-actions{display:flex;gap:18px;align-items:center}
+nav{display:flex;gap:22px;font-size:10px;letter-spacing:1.5px}
+.header-actions{display:flex;gap:15px;align-items:center}
 .header-actions button{background:none;border:0;color:white;font-size:20px}
-.cart-count{
- font-size:10px;background:#c51526;border-radius:50%;
- padding:3px 6px;vertical-align:top
-}
+.cart-count{font-size:10px;background:#c51526;border-radius:50%;padding:3px 6px}
 
-/* CATEGORY SIDEBAR */
 .menu-overlay{
- position:fixed;inset:0;background:rgba(0,0,0,.78);
- z-index:1000;opacity:0;visibility:hidden;transition:.3s
+ position:fixed;inset:0;background:#000c;z-index:1000;
+ opacity:0;visibility:hidden;transition:.3s
 }
 .menu-overlay.show{opacity:1;visibility:visible}
-
 .side-menu{
  position:fixed;top:0;left:0;width:300px;max-width:85%;
  height:100vh;background:#090909;border-right:2px solid #e00020;
  z-index:1001;padding:25px 22px;
- transform:translateX(-105%);transition:transform .3s ease;
+ transform:translateX(-105%);transition:transform .3s;
  overflow-y:auto
 }
 .side-menu.open{transform:translateX(0)}
-
 .side-menu-header{
  display:flex;justify-content:space-between;align-items:center;
- margin-bottom:30px;padding-bottom:20px;
- border-bottom:1px solid #333
+ margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid #333
 }
 .side-menu-header h2{font-size:19px;letter-spacing:3px}
-.side-menu-header button{
- background:none;border:0;color:white;font-size:26px
-}
-.menu-label{
- color:#e21b2d;font-size:10px;letter-spacing:3px;
- margin-bottom:12px
-}
+.side-menu-header button{background:none;border:0;color:white;font-size:26px}
+.menu-label{color:#e21b2d;font-size:10px;letter-spacing:3px;margin-bottom:12px}
 .side-menu>a{
- display:flex;justify-content:space-between;align-items:center;
- color:white;padding:19px 0;border-bottom:1px solid #292929;
- font-size:13px;letter-spacing:1.5px;transition:.2s
+ display:flex;justify-content:space-between;padding:19px 0;
+ border-bottom:1px solid #292929;font-size:13px;letter-spacing:1.5px
 }
-.side-menu>a:hover{color:#ed2637;padding-left:7px}
-.side-menu>a span{color:#ed2637;font-size:18px}
+.side-menu>a span{color:#ed2637}
 
-/* HERO */
 .hero{
- min-height:550px;display:flex;align-items:center;padding:65px 8%;
+ min-height:510px;display:flex;align-items:center;padding:60px 8%;
  background:linear-gradient(90deg,#080808 5%,#080808e8 42%,#08080830 100%),
  url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1600') center/cover
 }
 .hero-content{max-width:560px}
 .tag{color:#ed2637;letter-spacing:4px;font-size:11px;margin-bottom:22px}
-h1{
- font-size:clamp(48px,8vw,88px);line-height:.93;
- font-weight:900;letter-spacing:-4px
-}
+h1{font-size:clamp(48px,8vw,88px);line-height:.93;font-weight:900;letter-spacing:-4px}
 h1 span{color:#e21b2d}
-.hero p{
- color:#aaa;line-height:1.8;margin:23px 0;
- font-size:14px;max-width:420px
-}
-.btn{
- display:inline-block;background:#bd1020;color:white;border:0;
- padding:16px 27px;font-size:11px;font-weight:bold;letter-spacing:2px
-}
+.hero p{color:#aaa;line-height:1.8;margin:23px 0;font-size:14px;max-width:420px}
+.btn{display:inline-block;background:#bd1020;padding:16px 27px;font-size:11px;font-weight:bold;letter-spacing:2px}
 .btn:hover{background:#ed1c30}
 
-/* PRODUCTS */
-.section{padding:65px 7%}
+/* CATEGORY PRODUCT SLIDERS */
+.category-section{padding:55px 6%;border-bottom:1px solid #222}
 .heading{
- display:flex;justify-content:space-between;
- align-items:end;margin-bottom:28px
+ display:flex;justify-content:space-between;align-items:end;
+ margin-bottom:23px
 }
 .heading small{color:#e21b2d;letter-spacing:3px;font-size:10px}
-.heading h2{font-size:29px;margin-top:9px}
-.heading a{font-size:11px;color:#e21b2d}
+.heading h2{font-size:27px;margin-top:9px}
+.swipe-hint{font-size:10px;color:#888;letter-spacing:1px}
 
-.products{
- display:grid;grid-template-columns:repeat(4,1fr);gap:17px
+/* Native touch swipe on phones */
+.product-track{
+ display:flex;gap:15px;overflow-x:auto;overflow-y:hidden;
+ scroll-snap-type:x mandatory;scroll-behavior:smooth;
+ -webkit-overflow-scrolling:touch;padding-bottom:12px;
+ scrollbar-width:none
 }
-.product{background:#111;border:1px solid #292929;min-width:0}
-.product.hidden{display:none}
+.product-track::-webkit-scrollbar{display:none}
+.product{
+ flex:0 0 235px;min-width:0;background:#111;
+ border:1px solid #292929;scroll-snap-align:start
+}
 .product img{
- width:100%;height:290px;object-fit:cover;
+ width:100%;height:270px;object-fit:cover;
  display:block;background:#191919
 }
-.info{padding:15px}
+.info{padding:14px}
 .info h3{font-size:12px;letter-spacing:1px;margin-bottom:9px}
 .price{color:#e21b2d;font-size:14px;font-weight:bold}
 .add{
@@ -131,13 +102,6 @@ h1 span{color:#e21b2d}
 }
 .add:hover{background:#a20d1b;border-color:#a20d1b}
 
-.no-products{
- display:none;color:#999;text-align:center;
- padding:35px 10px;font-size:13px
-}
-.no-products.show{display:block}
-
-/* BRAND STATEMENT */
 .statement{
  padding:75px 8%;text-align:center;
  background:linear-gradient(120deg,#180306,#080808,#250509);
@@ -146,10 +110,7 @@ h1 span{color:#e21b2d}
 .statement h2{font-size:clamp(30px,6vw,58px);font-weight:900}
 .statement h2 span{color:#e21b2d}
 .statement p{color:#aaa;margin-top:15px;font-size:12px;letter-spacing:2px}
-footer{
- padding:35px;text-align:center;color:#777;
- font-size:11px;letter-spacing:2px
-}
+footer{padding:35px;text-align:center;color:#777;font-size:11px;letter-spacing:2px}
 
 /* CART */
 .cart-panel{
@@ -161,34 +122,25 @@ footer{
  width:min(390px,100%);height:100%;background:#111;
  padding:25px;overflow:auto;border-left:1px solid #a20d1b
 }
-.cart-head{
- display:flex;justify-content:space-between;align-items:center;
- border-bottom:1px solid #333;padding-bottom:20px
-}
+.cart-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;padding-bottom:20px}
 .cart-head button{background:none;color:white;border:0;font-size:25px}
 .cart-items{padding:20px 0}
-.cart-item{
- display:flex;justify-content:space-between;gap:15px;
- border-bottom:1px solid #333;padding:12px 0;font-size:13px
-}
+.cart-item{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid #333;padding:12px 0;font-size:13px}
 .cart-item button{background:none;color:#ed2637;border:0}
-.cart-total{
- border-top:1px solid #444;padding-top:20px;
- display:flex;justify-content:space-between;font-weight:bold
-}
+.cart-total{border-top:1px solid #444;padding-top:20px;display:flex;justify-content:space-between;font-weight:bold}
 .empty{color:#999;text-align:center;padding:30px 0;font-size:13px}
 
 @media(max-width:750px){
  header{height:65px;padding:0 5%}
- .logo{font-size:19px}
+ .logo{font-size:18px}
  nav{display:none}
- .hero{min-height:490px;padding:45px 7%;background-position:58% center}
+ .hero{min-height:460px;padding:40px 7%;background-position:58% center}
  h1{letter-spacing:-2px}
- .section{padding:45px 5%}
- .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .product img{height:220px}
+ .category-section{padding:40px 5%}
  .heading h2{font-size:22px}
- .heading a{font-size:9px}
+ .product{flex-basis:72%;max-width:260px}
+ .product img{height:240px}
+ .swipe-hint{font-size:9px}
 }
 </style>
 </head>
@@ -198,19 +150,16 @@ footer{
 <div class="top">NEW COLLECTION — STREETWEAR REDEFINED</div>
 
 <header>
- <button class="menu-btn" onclick="toggleMenu()" aria-label="Open categories">☰</button>
-
+ <button class="menu-btn" onclick="toggleMenu()">☰</button>
  <a class="logo" href="#">AESTHETIC<span>SHOP.</span></a>
-
  <nav>
   <a href="#">HOME</a>
-  <a href="#collection">COLLECTION</a>
+  <a href="#tshirts">COLLECTION</a>
   <a href="#about">ABOUT</a>
  </nav>
-
  <div class="header-actions">
-  <button aria-label="Search" onclick="document.getElementById('collection').scrollIntoView()">⌕</button>
-  <button aria-label="Cart" onclick="toggleCart()">♧ <span class="cart-count" id="cartCount">0</span></button>
+  <button onclick="document.getElementById('tshirts').scrollIntoView()">⌕</button>
+  <button onclick="toggleCart()">♧ <span class="cart-count" id="cartCount">0</span></button>
  </div>
 </header>
 
@@ -219,17 +168,13 @@ footer{
 <aside class="side-menu" id="sideMenu">
  <div class="side-menu-header">
   <h2>CATEGORIES</h2>
-  <button onclick="toggleMenu()" aria-label="Close menu">✕</button>
+  <button onclick="toggleMenu()">✕</button>
  </div>
-
  <div class="menu-label">EXPLORE COLLECTION</div>
-
- <a href="#collection" onclick="chooseCategory('all')">ALL PRODUCTS <span>→</span></a>
- <a href="#collection" onclick="chooseCategory('hoodies')">HOODIES <span>→</span></a>
- <a href="#collection" onclick="chooseCategory('tshirts')">T-SHIRTS <span>→</span></a>
- <a href="#collection" onclick="chooseCategory('pants')">PANTS <span>→</span></a>
- <a href="#collection" onclick="chooseCategory('shoes')">SHOES <span>→</span></a>
- <a href="#collection" onclick="chooseCategory('accessories')">ACCESSORIES <span>→</span></a>
+ <a href="#tshirts" onclick="toggleMenu()">T-SHIRTS <span>→</span></a>
+ <a href="#hoodies" onclick="toggleMenu()">HOODIES <span>→</span></a>
+ <a href="#pants" onclick="toggleMenu()">PANTS <span>→</span></a>
+ <a href="#shoes" onclick="toggleMenu()">SHOES <span>→</span></a>
 </aside>
 
 <section class="hero">
@@ -237,61 +182,95 @@ footer{
   <div class="tag">THE NEW STREET CULTURE</div>
   <h1>WEAR<br>YOUR <span>IDENTITY.</span></h1>
   <p>Not made to fit in. Discover the latest streetwear collection and create your own statement.</p>
-  <a class="btn" href="#collection">EXPLORE COLLECTION ↗</a>
+  <a class="btn" href="#tshirts">EXPLORE COLLECTION ↗</a>
  </div>
 </section>
 
-<section class="section" id="collection">
+<!-- T-SHIRTS -->
+<section class="category-section" id="tshirts">
  <div class="heading">
-  <div>
-   <small>CURATED FOR YOU</small>
-   <h2 id="collectionTitle">FEATURED COLLECTION</h2>
-  </div>
-  <a href="#collection" onclick="chooseCategory('all')">VIEW ALL ↗</a>
+  <div><small>01 / COLLECTION</small><h2>T-SHIRTS</h2></div>
+  <div class="swipe-hint">← SWIPE TO EXPLORE →</div>
  </div>
+ <div class="product-track">
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" alt="Essential T-shirt">
+   <div class="info"><h3>ESSENTIAL T-SHIRT</h3><div class="price">₹899</div><button class="add" onclick="addCart('Essential T-Shirt',899)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600" alt="Street T-shirt">
+   <div class="info"><h3>STREET T-SHIRT</h3><div class="price">₹999</div><button class="add" onclick="addCart('Street T-Shirt',999)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1527719327859-c6ce80353573?w=600" alt="Graphic T-shirt">
+   <div class="info"><h3>GRAPHIC T-SHIRT</h3><div class="price">₹1,099</div><button class="add" onclick="addCart('Graphic T-Shirt',1099)">ADD TO CART +</button></div>
+  </div>
+ </div>
+</section>
 
- <div class="products" id="productGrid">
-
-  <div class="product" data-category="hoodies">
+<!-- HOODIES -->
+<section class="category-section" id="hoodies">
+ <div class="heading">
+  <div><small>02 / COLLECTION</small><h2>HOODIES</h2></div>
+  <div class="swipe-hint">← SWIPE TO EXPLORE →</div>
+ </div>
+ <div class="product-track">
+  <div class="product">
    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600" alt="Oversized hoodie">
-   <div class="info">
-    <h3>OVERSIZED HOODIE</h3>
-    <div class="price">₹1,999</div>
-    <button class="add" onclick="addCart('Oversized Hoodie',1999)">ADD TO CART +</button>
-   </div>
+   <div class="info"><h3>OVERSIZED HOODIE</h3><div class="price">₹1,999</div><button class="add" onclick="addCart('Oversized Hoodie',1999)">ADD TO CART +</button></div>
   </div>
-
-  <div class="product" data-category="tshirts">
-   <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" alt="T shirt">
-   <div class="info">
-    <h3>ESSENTIAL T-SHIRT</h3>
-    <div class="price">₹899</div>
-    <button class="add" onclick="addCart('Essential T-Shirt',899)">ADD TO CART +</button>
-   </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1578681994506-b8f463449011?w=600" alt="Street hoodie">
+   <div class="info"><h3>STREET HOODIE</h3><div class="price">₹2,199</div><button class="add" onclick="addCart('Street Hoodie',2199)">ADD TO CART +</button></div>
   </div>
-
-  <div class="product" data-category="pants">
-   <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600" alt="Cargo pants">
-   <div class="info">
-    <h3>RELAXED CARGO</h3>
-    <div class="price">₹1,499</div>
-    <button class="add" onclick="addCart('Relaxed Cargo',1499)">ADD TO CART +</button>
-   </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600" alt="Classic hoodie">
+   <div class="info"><h3>CLASSIC HOODIE</h3><div class="price">₹1,799</div><button class="add" onclick="addCart('Classic Hoodie',1799)">ADD TO CART +</button></div>
   </div>
-
-  <div class="product" data-category="shoes">
-   <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Sneakers">
-   <div class="info">
-    <h3>STREET SNEAKERS</h3>
-    <div class="price">₹2,499</div>
-    <button class="add" onclick="addCart('Street Sneakers',2499)">ADD TO CART +</button>
-   </div>
-  </div>
-
  </div>
+</section>
 
- <div class="no-products" id="noProducts">
-  No products in this category yet.
+<!-- PANTS -->
+<section class="category-section" id="pants">
+ <div class="heading">
+  <div><small>03 / COLLECTION</small><h2>PANTS</h2></div>
+  <div class="swipe-hint">← SWIPE TO EXPLORE →</div>
+ </div>
+ <div class="product-track">
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600" alt="Cargo pants">
+   <div class="info"><h3>RELAXED CARGO</h3><div class="price">₹1,499</div><button class="add" onclick="addCart('Relaxed Cargo',1499)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=600" alt="Denim pants">
+   <div class="info"><h3>STREET DENIM</h3><div class="price">₹1,699</div><button class="add" onclick="addCart('Street Denim',1699)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1517438476312-10d79c077509?w=600" alt="Casual pants">
+   <div class="info"><h3>CASUAL PANTS</h3><div class="price">₹1,399</div><button class="add" onclick="addCart('Casual Pants',1399)">ADD TO CART +</button></div>
+  </div>
+ </div>
+</section>
+
+<!-- SHOES -->
+<section class="category-section" id="shoes">
+ <div class="heading">
+  <div><small>04 / COLLECTION</small><h2>SHOES</h2></div>
+  <div class="swipe-hint">← SWIPE TO EXPLORE →</div>
+ </div>
+ <div class="product-track">
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Red sneakers">
+   <div class="info"><h3>STREET SNEAKERS</h3><div class="price">₹2,499</div><button class="add" onclick="addCart('Street Sneakers',2499)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600" alt="Casual shoes">
+   <div class="info"><h3>CASUAL SNEAKERS</h3><div class="price">₹2,299</div><button class="add" onclick="addCart('Casual Sneakers',2299)">ADD TO CART +</button></div>
+  </div>
+  <div class="product">
+   <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600" alt="Sport shoes">
+   <div class="info"><h3>SPORT SHOES</h3><div class="price">₹2,699</div><button class="add" onclick="addCart('Sport Shoes',2699)">ADD TO CART +</button></div>
+  </div>
  </div>
 </section>
 
@@ -304,19 +283,10 @@ footer{
 
 <div class="cart-panel" id="cartPanel" onclick="if(event.target===this)toggleCart()">
  <div class="cart-box">
-  <div class="cart-head">
-   <h2>YOUR CART</h2>
-   <button onclick="toggleCart()">×</button>
-  </div>
-  <div class="cart-items" id="cartItems">
-   <div class="empty">Your cart is empty.</div>
-  </div>
-  <div class="cart-total">
-   <span>TOTAL</span><span id="cartTotal">₹0</span>
-  </div>
-  <p style="font-size:10px;color:#888;margin-top:15px">
-   Demo cart only. Online checkout is not connected yet.
-  </p>
+  <div class="cart-head"><h2>YOUR CART</h2><button onclick="toggleCart()">×</button></div>
+  <div class="cart-items" id="cartItems"><div class="empty">Your cart is empty.</div></div>
+  <div class="cart-total"><span>TOTAL</span><span id="cartTotal">₹0</span></div>
+  <p style="font-size:10px;color:#888;margin-top:15px">Demo cart only. Online checkout is not connected yet.</p>
  </div>
 </div>
 
@@ -326,32 +296,6 @@ let cart=[];
 function toggleMenu(){
  document.getElementById('sideMenu').classList.toggle('open');
  document.getElementById('menuOverlay').classList.toggle('show');
- document.body.classList.toggle('menu-open');
-}
-
-function chooseCategory(category){
- const products=document.querySelectorAll('.product');
- let count=0;
-
- products.forEach(product=>{
-  const match=category==='all' || product.dataset.category===category;
-  product.classList.toggle('hidden',!match);
-  if(match)count++;
- });
-
- const names={
-  all:'FEATURED COLLECTION',
-  hoodies:'HOODIES',
-  tshirts:'T-SHIRTS',
-  pants:'PANTS',
-  shoes:'SHOES',
-  accessories:'ACCESSORIES'
- };
-
- document.getElementById('collectionTitle').textContent=names[category];
- document.getElementById('noProducts').classList.toggle('show',count===0);
-
- toggleMenu();
 }
 
 function addCart(name,price){
@@ -363,35 +307,23 @@ function addCart(name,price){
 
 function renderCart(){
  document.getElementById('cartCount').textContent=
-  cart.reduce((s,x)=>s+x.qty,0);
+ cart.reduce((s,x)=>s+x.qty,0);
 
  let area=document.getElementById('cartItems');
-
  if(!cart.length){
   area.innerHTML='<div class="empty">Your cart is empty.</div>';
  }else{
   area.innerHTML=cart.map((x,i)=>
-   `<div class="cart-item">
-    <div><b>${x.name}</b><br>
-    ₹${x.price.toLocaleString('en-IN')} × ${x.qty}</div>
-    <button onclick="removeItem(${i})">REMOVE</button>
-   </div>`
+   `<div class="cart-item"><div><b>${x.name}</b><br>₹${x.price.toLocaleString('en-IN')} × ${x.qty}</div><button onclick="removeItem(${i})">REMOVE</button></div>`
   ).join('');
  }
 
  let total=cart.reduce((s,x)=>s+x.price*x.qty,0);
- document.getElementById('cartTotal').textContent=
-  '₹'+total.toLocaleString('en-IN');
+ document.getElementById('cartTotal').textContent='₹'+total.toLocaleString('en-IN');
 }
 
-function removeItem(i){
- cart.splice(i,1);
- renderCart();
-}
-
-function toggleCart(){
- document.getElementById('cartPanel').classList.toggle('open');
-}
+function removeItem(i){cart.splice(i,1);renderCart()}
+function toggleCart(){document.getElementById('cartPanel').classList.toggle('open')}
 </script>
 
 </body>
