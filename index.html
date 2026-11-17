@@ -96,6 +96,21 @@ footer{padding:35px;text-align:center;color:#777;font-size:11px;letter-spacing:2
     <button aria-label="Cart" onclick="toggleCart()">♧ <span class="cart-count" id="cartCount">0</span></button>
   </div>
 </header>
+ <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<aside class="side-menu" id="sideMenu">
+  <div class="side-menu-header">
+    <h2> CATEGORIES</h2>
+    <button onclick="toggleMenu()">✕</button>
+  </div>
+
+  <a href="#collection" onclick="toggleMenu()">ALL PRODUCTS <span>→</span></a>
+  <a href="#collection" onclick="toggleMenu()">HOODIES <span>→</span></a>
+  <a href="#collection" onclick="toggleMenu()">T-SHIRTS <span>→</span></a>
+  <a href="#collection" onclick="toggleMenu()">PANTS <span>→</span></a>
+  <a href="#collection" onclick="toggleMenu()">SHOES <span>→</span></a>
+  <a href="#collection" onclick="toggleMenu()">ACCESSORIES <span>→</span></a>
+</aside>
 
 <section class="hero">
  <div class="hero-content">
