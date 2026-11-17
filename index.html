@@ -81,17 +81,20 @@ footer{padding:35px;text-align:center;color:#777;font-size:11px;letter-spacing:2
 <div class="top">NEW COLLECTION — STREETWEAR REDEFINED</div>
 
 <header>
- <a class="logo" href="#">AESTHETIC<span>SHOP.</span></a>
- <nav>
-  <a href="#">HOME</a>
-  <a href="#collection">COLLECTION</a>
-  <a href="#categories">CATEGORIES</a>
-  <a href="#about">ABOUT</a>
- </nav>
- <div class="header-actions">
-  <button aria-label="Search" onclick="document.getElementById('collection').scrollIntoView()">⌕</button>
-  <button aria-label="Cart" onclick="toggleCart()">♧ <span class="cart-count" id="cartCount">0</span></button>
- </div>
+  <button class="menu-btn" onclick="toggleMenu()" aria-label="Open categories">☰</button>
+
+  <a class="logo" href="#">AESTHETIC<span>SHOP.</span></a>
+
+  <nav>
+    <a href="#">HOME</a>
+    <a href="#collection">COLLECTION</a>
+    <a href="#about">ABOUT</a>
+  </nav>
+
+  <div class="header-actions">
+    <button aria-label="Search" onclick="document.getElementById('collection').scrollIntoView()">⌕</button>
+    <button aria-label="Cart" onclick="toggleCart()">♧ <span class="cart-count" id="cartCount">0</span></button>
+  </div>
 </header>
 
 <section class="hero">
