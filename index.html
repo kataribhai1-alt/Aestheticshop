@@ -4,598 +4,468 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
 <title>AestheticShop | Wear Your Identity</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#e50920;--bg:#080808;--card:#151515}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
-button{font-family:inherit;cursor:pointer}
+:root{--red:#e50914;--black:#080808;--gray:#999}
+body{background:var(--black);color:#fff;font-family:Arial,sans-serif}
+button{cursor:pointer;font-family:inherit}
+a{color:inherit;text-decoration:none}
 
-header{
- position:sticky;
- top:0;
- z-index:100;
- background:#080808ed;
+.navbar{
+ position:sticky;top:0;z-index:100;
+ height:65px;background:#080808;
  border-bottom:1px solid #252525;
- backdrop-filter:blur(15px);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 5%;
 }
-.nav{
- height:68px;
- max-width:1250px;
- margin:auto;
- padding:0 18px;
- display:flex;
- align-items:center;
- justify-content:space-between;
-}
-.logo{font-size:22px;font-weight:900;letter-spacing:1px;color:#fff;text-decoration:none}
+.logo{font-size:22px;font-weight:900;letter-spacing:1px}
 .logo span{color:var(--red)}
-.nav-right{display:flex;align-items:center;gap:20px}
-.nav-right button{background:none;border:0;color:white;font-size:13px}
+.nav-right{display:flex;gap:20px;align-items:center}
+.nav-right button{
+ background:none;border:0;color:#fff;font-size:14px
+}
 .cart-count{color:var(--red);font-weight:bold}
 
-/* FULL WIDTH VIDEO */
-.hero{
- width:100%;
- padding:0 0 35px;
- background:#080808;
- overflow:hidden;
-}
 .video-stage{
- width:100%;
- margin:0;
- padding:0;
+ width:100%;margin:0;padding:0;background:#000;
  overflow:hidden;
- background:#000;
- position:relative;
 }
 .video-stage video{
- display:block;
- width:100%;
- height:auto;
- aspect-ratio:16/9;
- object-fit:cover;
- background:#000;
+ display:block;width:100%;height:auto;
+ aspect-ratio:16/9;object-fit:cover;
 }
 
-/* HERO TEXT */
-.hero-content{
- text-align:center;
- padding:30px 15px 10px;
-}
-.eyebrow{
- color:var(--red);
- font-size:11px;
- letter-spacing:5px;
- font-weight:bold;
+.hero{
+ min-height:230px;padding:45px 20px;
+ display:flex;flex-direction:column;
+ justify-content:center;align-items:center;text-align:center;
+ background:linear-gradient(180deg,#080808,#140000);
 }
 .hero h1{
- font-size:clamp(43px,9vw,90px);
- font-weight:1000;
- letter-spacing:-4px;
- line-height:.95;
- margin:17px 0;
+ font-size:clamp(34px,8vw,68px);
+ font-weight:900;letter-spacing:2px;
 }
 .hero h1 span{color:var(--red)}
-.hero p{color:#aaa;font-size:12px;letter-spacing:2px}
-.shop-btn{
- margin-top:22px;
- background:var(--red);
- color:#fff;
- border:0;
- padding:15px 30px;
- font-size:12px;
- font-weight:bold;
- letter-spacing:2px;
-}
-.shop-btn:active{transform:scale(.97)}
-
-/* SHOP */
-.section{max-width:1250px;margin:auto;padding:50px 18px}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}
-.section-head h2{font-size:25px;font-weight:900}
-.section-head p{font-size:11px;color:#999;margin-top:7px}
-.red-line{height:3px;width:42px;background:var(--red);margin-top:12px}
-.categories{
- display:flex;
- gap:10px;
- overflow-x:auto;
- padding:4px 0 18px;
- scrollbar-width:none;
-}
-.categories::-webkit-scrollbar,.products::-webkit-scrollbar{display:none}
-.cat-btn{
- flex:0 0 auto;
- background:#171717;
- color:#aaa;
- border:1px solid #292929;
- padding:12px 19px;
- font-size:11px;
+.hero p{color:#aaa;margin-top:12px;letter-spacing:3px;font-size:12px}
+.hero a{
+ margin-top:23px;background:var(--red);
+ padding:13px 28px;font-weight:bold;font-size:12px;
  letter-spacing:1px;
 }
-.cat-btn.active{background:var(--red);border-color:var(--red);color:#fff}
-.products{
- display:flex;
- gap:15px;
- overflow-x:auto;
- scroll-snap-type:x mandatory;
- padding:5px 2px 18px;
+
+.section{padding:35px 5%}
+.section-title{
+ font-size:25px;font-weight:900;
+ margin-bottom:22px;
+}
+.section-title span{color:var(--red)}
+
+.categories{
+ display:flex;gap:10px;overflow-x:auto;
+ padding:5px 0 20px;
  scrollbar-width:none;
- -webkit-overflow-scrolling:touch;
+}
+.categories::-webkit-scrollbar{display:none}
+.cat-btn{
+ flex-shrink:0;background:#151515;color:#aaa;
+ border:1px solid #333;padding:11px 18px;
+ font-size:12px;font-weight:bold;
+}
+.cat-btn.active,.cat-btn:hover{
+ background:var(--red);border-color:var(--red);color:#fff
+}
+
+.products{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
 }
 .product{
- flex:0 0 220px;
- scroll-snap-align:start;
- background:var(--card);
- border:1px solid #222;
- overflow:hidden;
- cursor:pointer;
- transition:transform .25s,border .25s;
+ background:#111;border:1px solid #222;
+ overflow:hidden;position:relative;
 }
-.product:active{transform:scale(.98)}
-.product-image{height:260px;background:#1c1c1c;position:relative;overflow:hidden}
-.product-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-.product:hover .product-image img{transform:scale(1.05)}
+.product-image{
+ width:100%;aspect-ratio:3/4;
+ background:#171717;overflow:hidden;
+}
+.product-image img{
+ width:100%;height:100%;object-fit:cover;
+ display:block;transition:transform .3s;
+}
+.product:hover img{transform:scale(1.04)}
+.product-info{padding:13px}
+.product-info h3{font-size:14px;margin-bottom:8px}
+.price{font-size:14px;font-weight:bold}
+.old-price{
+ color:#777;text-decoration:line-through;
+ font-size:12px;margin-left:7px
+}
 .sale-tag{
- position:absolute;
- top:12px;
- left:12px;
- background:var(--red);
- padding:6px 9px;
- font-size:10px;
- font-weight:bold;
+ position:absolute;top:10px;left:10px;
+ background:var(--red);padding:6px 8px;
+ font-size:10px;font-weight:bold;
 }
-.product-info{padding:15px}
-.product-info h3{font-size:13px;margin-bottom:10px}
-.price{font-size:15px;font-weight:bold}
-.old-price{color:#777;text-decoration:line-through;font-size:11px;margin-left:7px}
-.product-info small{display:block;color:#888;font-size:10px;margin-top:7px}
-.empty,.loading{color:#888;font-size:13px;padding:20px 0}
+.view-btn{
+ margin-top:12px;width:100%;padding:11px;
+ background:#fff;color:#000;border:0;
+ font-size:11px;font-weight:bold;
+}
+.empty{
+ grid-column:1/-1;text-align:center;
+ color:#888;padding:40px 10px;
+}
 
-.banner{
- margin:15px 18px 40px;
- padding:48px 20px;
- text-align:center;
- background:linear-gradient(120deg,#26080d,#10090a,#26080d);
- border:1px solid #381117;
+.footer{
+ border-top:1px solid #222;
+ padding:35px 20px;text-align:center;color:#777;
+ font-size:12px;line-height:2;
 }
-.banner h2{font-size:30px;font-weight:900}
-.banner p{color:#aaa;font-size:12px;margin-top:10px}
+.footer strong{color:#fff}
 
-footer{
- border-top:1px solid #252525;
- padding:35px 18px;
- text-align:center;
- color:#777;
+.modal{
+ display:none;position:fixed;inset:0;z-index:300;
+ background:rgba(0,0,0,.92);
+ overflow-y:auto;padding:25px 15px;
 }
-footer strong{color:white;font-size:20px}
-footer p{font-size:11px;margin-top:10px}
-
-/* PRODUCT DETAILS */
-#detail{
- display:none;
- min-height:75vh;
- padding:25px 18px 60px;
- max-width:1100px;
- margin:auto;
+.modal-content{
+ max-width:500px;margin:20px auto;
+ background:#111;border:1px solid #333;
+ padding:18px;position:relative;
 }
-.back{
- background:none;
- border:1px solid #333;
- color:white;
- padding:11px 17px;
- font-size:12px;
- margin-bottom:25px;
-}
-.detail-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:35px;
- align-items:center;
+.close{
+ position:absolute;right:15px;top:12px;
+ background:none;border:0;color:#fff;font-size:27px;
 }
 .detail-image{
- height:480px;
- background:#151515;
- display:flex;
- align-items:center;
- justify-content:center;
- overflow:hidden;
+ width:100%;max-height:380px;object-fit:contain;
+ background:#181818;margin:25px 0 15px;
 }
-.detail-image img{width:100%;height:100%;object-fit:contain}
-.detail-info h1{font-size:32px;margin:15px 0}
-.detail-info .price{font-size:23px}
-.detail-info p{color:#999;font-size:13px;margin:18px 0}
-.sizes{display:flex;gap:9px;margin:20px 0}
-.size-btn{background:#171717;color:white;border:1px solid #444;width:43px;height:43px}
+.detail-name{font-size:22px;margin-bottom:12px}
+.detail-price{font-size:19px;font-weight:bold;margin-bottom:20px}
+.size-title{font-size:12px;color:#aaa;margin-bottom:10px}
+.sizes{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
+.size-btn{
+ background:#222;border:1px solid #444;color:#fff;
+ padding:11px 15px;
+}
 .size-btn.selected{background:var(--red);border-color:var(--red)}
-.add-btn{
- width:100%;
- padding:17px;
- background:var(--red);
- border:0;
- color:white;
- font-weight:bold;
- letter-spacing:2px;
- margin-top:12px;
+.add-cart{
+ width:100%;padding:15px;background:var(--red);
+ color:#fff;border:0;font-weight:bold;
 }
-
-/* CART */
-.cart-panel{
- position:fixed;
- z-index:200;
- right:0;
- top:0;
- width:min(380px,100%);
- height:100dvh;
- background:#111;
- border-left:1px solid #333;
- padding:25px;
- transform:translateX(105%);
- transition:transform .3s ease;
- overflow-y:auto;
-}
-.cart-panel.open{transform:translateX(0)}
-.cart-head{display:flex;justify-content:space-between;margin-bottom:25px}
-.cart-head button{background:none;border:0;color:white;font-size:22px}
-.cart-row{
- display:flex;
- justify-content:space-between;
- gap:12px;
- padding:15px 0;
- border-bottom:1px solid #333;
+.cart-list{margin:20px 0}
+.cart-item{
+ display:flex;justify-content:space-between;
+ gap:10px;padding:13px 0;border-bottom:1px solid #333;
  font-size:13px;
 }
-.cart-row button{background:none;border:0;color:var(--red)}
-.cart-total{margin-top:25px;font-weight:bold;font-size:18px}
+.cart-item button{
+ background:none;color:var(--red);border:0;
+}
+.cart-total{
+ display:flex;justify-content:space-between;
+ padding:15px 0;font-weight:bold;
+}
 
-@media(max-width:650px){
- .hero{padding-bottom:25px}
- .hero-content{padding:25px 12px 5px}
- .hero h1{letter-spacing:-2px}
- .section{padding:38px 15px}
- .product{flex-basis:165px}
- .product-image{height:205px}
- .detail-grid{grid-template-columns:1fr;gap:22px}
- .detail-image{height:370px}
- .detail-info h1{font-size:26px}
+@media(min-width:700px){
+ .products{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+ .hero{min-height:300px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
- <div class="nav">
-  <a href="#" class="logo" onclick="showHome();return false">AESTHETIC<span>SHOP</span></a>
-  <div class="nav-right">
-   <button onclick="scrollToShop()">SHOP</button>
-   <button onclick="toggleCart()">CART <span class="cart-count" id="cartCount">0</span></button>
-  </div>
+<header class="navbar">
+ <a href="#" class="logo">AESTHETIC<span>SHOP</span></a>
+ <div class="nav-right">
+  <button onclick="scrollToProducts()">SHOP</button>
+  <button onclick="openCart()">CART <span class="cart-count" id="cartCount">0</span></button>
  </div>
 </header>
 
-<main id="home">
-
-<!-- VIDEO FIRST: FULL WIDTH -->
-<section class="hero">
-
- <div class="video-stage">
-  <video
-   id="showcaseVideo"
-   autoplay
-   muted
-   loop
-   playsinline
-   webkit-playsinline
-   preload="auto"
-   poster=""
-  >
-   <source src="videos/Aesthetic_jacket_product_showcase_d2214a8e_1080p.mp4" type="video/mp4">
-  </video>
- </div>
-
- <div class="hero-content">
-  <div class="eyebrow">NEW STREETWEAR COLLECTION</div>
-  <h1>WEAR YOUR<br><span>IDENTITY.</span></h1>
-  <p>BUILT DIFFERENT. WORN DIFFERENT.</p>
-  <button class="shop-btn" onclick="scrollToShop()">EXPLORE COLLECTION</button>
- </div>
-
+<!-- TOP FULL-WIDTH VIDEO -->
+<section class="video-stage">
+ <video id="showcaseVideo" autoplay muted loop playsinline webkit-playsinline preload="auto">
+  <source src="videos/Aesthetic_jacket_product_showcase_d2214a8e_1080p.mp4" type="video/mp4">
+ </video>
 </section>
 
-<section class="section" id="shop">
- <div class="section-head">
-  <div><h2>SHOP BY CATEGORY</h2><div class="red-line"></div></div>
- </div>
+<section class="hero">
+ <h1>WEAR YOUR <span>IDENTITY</span></h1>
+ <p>YOUR STYLE. YOUR RULES. YOUR IDENTITY.</p>
+ <a href="#shop" onclick="scrollToProducts()">EXPLORE COLLECTION</a>
+</section>
+
+<main class="section" id="shop">
+ <h2 class="section-title">OUR <span>COLLECTION</span></h2>
 
  <div class="categories">
-  <button class="cat-btn active" onclick="filterCategory('All',this)">ALL</button>
-  <button class="cat-btn" onclick="filterCategory('T-Shirts',this)">T-SHIRTS</button>
-  <button class="cat-btn" onclick="filterCategory('Hoodies',this)">HOODIES</button>
-  <button class="cat-btn" onclick="filterCategory('Pants',this)">PANTS</button>
-  <button class="cat-btn" onclick="filterCategory('Shoes',this)">SHOES</button>
-  <button class="cat-btn" onclick="filterCategory('Accessories',this)">ACCESSORIES</button>
+  <button class="cat-btn active" onclick="filterProducts('All',this)">ALL</button>
+  <button class="cat-btn" onclick="filterProducts('T-Shirts',this)">T-SHIRTS</button>
+  <button class="cat-btn" onclick="filterProducts('Hoodies',this)">HOODIES</button>
+  <button class="cat-btn" onclick="filterProducts('Pants',this)">PANTS</button>
+  <button class="cat-btn" onclick="filterProducts('Shoes',this)">SHOES</button>
+  <button class="cat-btn" onclick="filterProducts('Accessories',this)">ACCESSORIES</button>
  </div>
 
- <div class="section-head">
-  <div><h2 id="collectionTitle">LATEST COLLECTION</h2><p>DISCOVER YOUR NEXT LOOK</p></div>
+ <div class="products" id="products">
+  <div class="empty">Loading collection...</div>
  </div>
-
- <div id="productList" class="products">
-  <div class="loading">Loading collection...</div>
- </div>
-</section>
-
-<section class="banner">
- <h2>YOUR STYLE. YOUR RULES.</h2>
- <p>MAKE EVERY OUTFIT COUNT.</p>
-</section>
-
 </main>
 
-<section id="detail">
- <button class="back" onclick="showHome()">← BACK TO SHOP</button>
- <div class="detail-grid">
-  <div class="detail-image"><img id="detailImage" src="" alt="Product"></div>
-  <div class="detail-info">
-   <div class="eyebrow">AESTHETIC COLLECTION</div>
-   <h1 id="detailName"></h1>
-   <div class="price" id="detailPrice"></div>
-   <p>Choose your size and add this product to your demo cart.</p>
-   <strong style="font-size:12px;letter-spacing:2px">SELECT SIZE</strong>
-   <div class="sizes">
-    <button class="size-btn" onclick="selectSize(this)">S</button>
-    <button class="size-btn" onclick="selectSize(this)">M</button>
-    <button class="size-btn" onclick="selectSize(this)">L</button>
-    <button class="size-btn" onclick="selectSize(this)">XL</button>
-    <button class="size-btn" onclick="selectSize(this)">XXL</button>
-   </div>
-   <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
-  </div>
- </div>
-</section>
-
-<div class="cart-panel" id="cartPanel">
- <div class="cart-head"><h2>YOUR CART</h2><button onclick="toggleCart()">×</button></div>
- <div id="cartItems"><p class="empty">Your cart is empty.</p></div>
- <div class="cart-total" id="cartTotal">TOTAL: ₹0</div>
- <p style="font-size:10px;color:#888;margin-top:15px">Demo cart only. No payment or order is processed.</p>
-</div>
-
-<footer>
- <strong>AESTHETIC<span style="color:#e50920">SHOP</span></strong>
- <p>WEAR YOUR IDENTITY. © 2026 AESTHETICSHOP.</p>
+<footer class="footer">
+ <strong>AESTHETICSHOP</strong><br>
+ WEAR YOUR IDENTITY<br>
+ © 2026 AestheticShop. All rights reserved.
 </footer>
 
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal" id="productModal">
+ <div class="modal-content">
+  <button class="close" onclick="closeProduct()">×</button>
+  <img class="detail-image" id="detailImage" src="" alt="Product">
+  <h2 class="detail-name" id="detailName"></h2>
+  <div class="detail-price" id="detailPrice"></div>
+  <p class="size-title">SELECT SIZE</p>
+  <div class="sizes">
+   <button class="size-btn" onclick="selectSize('S',this)">S</button>
+   <button class="size-btn" onclick="selectSize('M',this)">M</button>
+   <button class="size-btn" onclick="selectSize('L',this)">L</button>
+   <button class="size-btn" onclick="selectSize('XL',this)">XL</button>
+   <button class="size-btn" onclick="selectSize('XXL',this)">XXL</button>
+  </div>
+  <button class="add-cart" onclick="addToCart()">ADD TO CART</button>
+ </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+ <div class="modal-content">
+  <button class="close" onclick="closeCart()">×</button>
+  <h2 class="section-title">YOUR <span>CART</span></h2>
+  <div class="cart-list" id="cartItems"></div>
+  <div class="cart-total">
+   <span>TOTAL</span><span id="cartTotal">₹0</span>
+  </div>
+  <p style="color:#888;font-size:11px;line-height:1.6">
+   Demo cart only. Online payment and order placement are not enabled.
+  </p>
+ </div>
+</div>
+
 <script>
-/* VIDEO AUTOPLAY */
-const video=document.getElementById("showcaseVideo");
+/* SUPABASE CONFIG */
+const SUPABASE_URL = "https://djvtgmolgvtnjkvthccs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_MQZ_aXq94UEP_QEDQpPA0w_2u3kMv2A";
 
-video.muted=true;
-video.defaultMuted=true;
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-function startShowcaseVideo(){
- video.play().catch(()=>{});
-}
+let allProducts = [];
+let currentProduct = null;
+let selectedSize = "";
+let cart = [];
+let currentCategory = "All";
 
-startShowcaseVideo();
+const productBox = document.getElementById("products");
 
-document.addEventListener("visibilitychange",()=>{
- if(!document.hidden)startShowcaseVideo();
-});
-
-/* SUPABASE */
-const SUPABASE_URL="https://djvtgmolgvtnjkvthccs.supabase.co";
-const SUPABASE_KEY="sb_publishable_MQZ_aXq94UEP_QEDQpPA0w_2u3kMv2A";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-let allProducts=[];
-let currentProduct=null;
-let selectedSize="";
-let cart=[];
-let currentCategory="All";
-
-function money(n){
- return "₹"+Number(n||0).toLocaleString("en-IN");
-}
-
-function safe(s){
- return String(s??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- }[c]));
-}
-
-function scrollToShop(){
- document.getElementById("shop").scrollIntoView({behavior:"smooth"});
-}
-
-function filterCategory(category,button){
- currentCategory=category;
- document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
- if(button)button.classList.add("active");
- document.getElementById("collectionTitle").textContent=
-  category==="All"?"LATEST COLLECTION":category.toUpperCase();
- renderProducts();
-}
-
+/* LOAD PRODUCTS */
 async function loadProducts(){
- const list=document.getElementById("productList");
- list.innerHTML='<div class="loading">Loading collection...</div>';
+ productBox.innerHTML = '<div class="empty">Loading collection...</div>';
 
- const {data,error}=await db.from("products")
-  .select("id,name,price,sale_price,category,image_url,is_active")
+ const {data,error} = await db
+  .from("products")
+  .select("*")
   .eq("is_active",true)
   .order("created_at",{ascending:false});
 
  if(error){
-  list.innerHTML='<p class="empty">Products could not load. Please refresh.</p>';
+  productBox.innerHTML = '<div class="empty">Products load nahi hue. Please refresh.</div>';
   console.error(error);
   return;
  }
 
- allProducts=data||[];
+ allProducts = data || [];
  renderProducts();
-
- const id=new URLSearchParams(location.search).get("product");
- if(id){
-  const p=allProducts.find(x=>String(x.id)===id);
-  if(p)openProduct(p,false);
- }
 }
 
+/* RENDER PRODUCTS */
 function renderProducts(){
- const list=document.getElementById("productList");
+ let list = allProducts;
 
- const products=currentCategory==="All"
-  ?allProducts
-  :allProducts.filter(p=>(p.category||"").toLowerCase()===currentCategory.toLowerCase());
+ if(currentCategory !== "All"){
+  list = list.filter(p => p.category === currentCategory);
+ }
 
- if(!products.length){
-  list.innerHTML='<p class="empty">No products in this category yet.</p>';
+ if(!list.length){
+  productBox.innerHTML = '<div class="empty">No products available in this category.</div>';
   return;
  }
 
- list.innerHTML=products.map(p=>{
-  const sale=Number(p.sale_price)>0&&Number(p.sale_price)<Number(p.price);
-  const price=sale?Number(p.sale_price):Number(p.price);
+ productBox.innerHTML = list.map(p => {
+  const price = Number(p.price || 0);
+  const sale = Number(p.sale_price || 0);
+  const hasSale = sale > 0 && sale < price;
+  const finalPrice = hasSale ? sale : price;
 
-  return `<article class="product" onclick="openProductById('${safe(p.id)}')">
-   <div class="product-image">
-    <img src="${safe(p.image_url)}" alt="${safe(p.name)}" loading="lazy">
-    ${sale?'<span class="sale-tag">SALE</span>':''}
-   </div>
-   <div class="product-info">
-    <h3>${safe(p.name)}</h3>
-    <div class="price">${money(price)}${sale?`<span class="old-price">${money(p.price)}</span>`:""}</div>
-    <small>${safe(p.category||"Collection")}</small>
-   </div>
-  </article>`;
+  return `
+   <article class="product">
+    ${hasSale ? '<span class="sale-tag">SALE</span>' : ''}
+    <div class="product-image">
+     <img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}" loading="lazy">
+    </div>
+    <div class="product-info">
+     <h3>${escapeHTML(p.name)}</h3>
+     <div class="price">
+      ₹${finalPrice.toLocaleString("en-IN")}
+      ${hasSale ? `<span class="old-price">₹${price.toLocaleString("en-IN")}</span>` : ''}
+     </div>
+     <button class="view-btn" onclick="openProduct('${p.id}')">VIEW PRODUCT</button>
+    </div>
+   </article>
+  `;
  }).join("");
 }
 
-function openProductById(id){
- const p=allProducts.find(x=>String(x.id)===String(id));
- if(p)openProduct(p,true);
+/* BASIC HTML ESCAPING */
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
-function openProduct(p,updateUrl=true){
- currentProduct=p;
- selectedSize="";
+/* CATEGORY FILTER */
+function filterProducts(category,button){
+ currentCategory = category;
+ document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ renderProducts();
+}
 
+/* OPEN PRODUCT */
+function openProduct(id){
+ currentProduct = allProducts.find(p=>p.id===id);
+ if(!currentProduct) return;
+
+ selectedSize = "";
  document.querySelectorAll(".size-btn").forEach(b=>b.classList.remove("selected"));
 
- document.getElementById("detailName").textContent=p.name;
- document.getElementById("detailImage").src=p.image_url;
+ const price = Number(currentProduct.price || 0);
+ const sale = Number(currentProduct.sale_price || 0);
+ const hasSale = sale > 0 && sale < price;
 
- const sale=Number(p.sale_price)>0&&Number(p.sale_price)<Number(p.price);
+ document.getElementById("detailImage").src = currentProduct.image_url;
+ document.getElementById("detailName").textContent = currentProduct.name;
+ document.getElementById("detailPrice").innerHTML =
+  hasSale
+  ? `₹${sale.toLocaleString("en-IN")} <span class="old-price">₹${price.toLocaleString("en-IN")}</span>`
+  : `₹${price.toLocaleString("en-IN")}`;
 
- document.getElementById("detailPrice").innerHTML=
-  money(sale?p.sale_price:p.price)+
-  (sale?` <span class="old-price">${money(p.price)}</span>`:"");
-
- document.getElementById("home").style.display="none";
- document.getElementById("detail").style.display="block";
-
- window.scrollTo(0,0);
-
- if(updateUrl){
-  history.pushState({product:p.id},"","?product="+encodeURIComponent(p.id));
- }
+ document.getElementById("productModal").style.display="block";
+ document.body.style.overflow="hidden";
 }
 
-function showHome(){
- document.getElementById("detail").style.display="none";
- document.getElementById("home").style.display="block";
-
- if(location.search)history.pushState({},"",location.pathname);
-
- window.scrollTo(0,0);
+function closeProduct(){
+ document.getElementById("productModal").style.display="none";
+ document.body.style.overflow="";
 }
 
-window.addEventListener("popstate",()=>{
- const id=new URLSearchParams(location.search).get("product");
-
- if(id){
-  const p=allProducts.find(x=>String(x.id)===id);
-  if(p)openProduct(p,false);
- }else{
-  document.getElementById("detail").style.display="none";
-  document.getElementById("home").style.display="block";
- }
-});
-
-function selectSize(button){
- selectedSize=button.textContent;
+/* SIZE */
+function selectSize(size,button){
+ selectedSize = size;
  document.querySelectorAll(".size-btn").forEach(b=>b.classList.remove("selected"));
  button.classList.add("selected");
 }
 
+/* ADD TO CART */
 function addToCart(){
- if(!currentProduct)return;
-
+ if(!currentProduct) return;
  if(!selectedSize){
   alert("Please select a size first.");
   return;
  }
 
- const sale=Number(currentProduct.sale_price)>0&&Number(currentProduct.sale_price)<Number(currentProduct.price);
- const price=sale?Number(currentProduct.sale_price):Number(currentProduct.price);
+ const price = Number(currentProduct.price || 0);
+ const sale = Number(currentProduct.sale_price || 0);
+ const finalPrice = sale > 0 && sale < price ? sale : price;
 
  cart.push({
   id:currentProduct.id,
   name:currentProduct.name,
   size:selectedSize,
-  price
+  price:finalPrice
  });
 
  updateCart();
- toggleCart(true);
+ closeProduct();
+ alert("Product added to cart!");
 }
 
+/* CART */
 function updateCart(){
  document.getElementById("cartCount").textContent=cart.length;
 
- const items=document.getElementById("cartItems");
+ const items = document.getElementById("cartItems");
 
  if(!cart.length){
-  items.innerHTML='<p class="empty">Your cart is empty.</p>';
+  items.innerHTML='<p style="color:#888">Your cart is empty.</p>';
  }else{
-  items.innerHTML=cart.map((p,i)=>`
-   <div class="cart-row">
-    <div>
-     <strong>${safe(p.name)}</strong><br>
-     <small style="color:#888">Size: ${safe(p.size)}</small><br>
-     ${money(p.price)}
-    </div>
-    <button onclick="removeCartItem(${i})">REMOVE</button>
+  items.innerHTML=cart.map((item,index)=>`
+   <div class="cart-item">
+    <span>${escapeHTML(item.name)} (${item.size})<br>₹${item.price.toLocaleString("en-IN")}</span>
+    <button onclick="removeCartItem(${index})">REMOVE</button>
    </div>
   `).join("");
  }
 
- document.getElementById("cartTotal").textContent=
-  "TOTAL: "+money(cart.reduce((sum,p)=>sum+p.price,0));
+ const total=cart.reduce((sum,item)=>sum+item.price,0);
+ document.getElementById("cartTotal").textContent="₹"+total.toLocaleString("en-IN");
 }
 
-function removeCartItem(i){
- cart.splice(i,1);
+function removeCartItem(index){
+ cart.splice(index,1);
  updateCart();
 }
 
-function toggleCart(force){
- const panel=document.getElementById("cartPanel");
-
- if(force===true)panel.classList.add("open");
- else panel.classList.toggle("open");
+function openCart(){
+ updateCart();
+ document.getElementById("cartModal").style.display="block";
+ document.body.style.overflow="hidden";
 }
 
+function closeCart(){
+ document.getElementById("cartModal").style.display="none";
+ document.body.style.overflow="";
+}
+
+function scrollToProducts(){
+ document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+
+/* VIDEO AUTOPLAY ATTEMPT */
+const showcaseVideo=document.getElementById("showcaseVideo");
+showcaseVideo.muted=true;
+showcaseVideo.defaultMuted=true;
+
+function playShowcase(){
+ showcaseVideo.play().catch(error=>{
+  console.log("Video autoplay blocked or file unavailable:",error);
+ });
+}
+
+showcaseVideo.addEventListener("canplay",playShowcase);
+playShowcase();
+
+document.addEventListener("visibilitychange",()=>{
+ if(!document.hidden) playShowcase();
+});
+
+/* INITIALIZE */
+updateCart();
 loadProducts();
 </script>
 
